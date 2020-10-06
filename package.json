@@ -1,0 +1,37 @@
+{
+  "name": "xiv-raid-hub-bot",
+  "version": "1.0.0",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "node src/server/server.ts",
+    "start-dev": "ts-node-dev src/server/server.ts",
+    "lint": "tslint --project tsconfig.json --format stylish"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/router": "^9.4.0",
+    "@types/koa": "^2.11.4",
+    "@types/koa-helmet": "^5.2.0",
+    "@types/koa-logger": "^3.1.1",
+    "@types/koa__cors": "^3.0.2",
+    "@types/koa__router": "^8.0.3",
+    "@types/node": "^14.11.2",
+    "@types/node-fetch": "^2.5.7",
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.0",
+    "koa-helmet": "^6.0.0",
+    "koa-logger": "^3.2.1",
+    "koa-respond": "^2.1.0",
+    "node": "^14.13.0",
+    "node-fetch": "^2.6.1",
+    "typescript": "^4.0.3",
+    "typescript-ioc": "^3.2.2"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.63",
+    "tslint": "^6.1.3"
+  }
+}
