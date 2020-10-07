@@ -2,7 +2,7 @@ import { Context, DefaultState, ParameterizedContext } from 'koa';
 import * as Router from '@koa/router';
 import { RaidHubService } from '../services/raid-hub-service';
 import { Container } from 'typescript-ioc';
-import { APIKeyService } from '../server/APIKeyService';
+import { APIKeyService } from '../services/APIKeyService';
 import { DiscordClientApiService } from '../services/discord-client-api';
 
 export type RContext = ParameterizedContext<DefaultState, Context & Router.RouterParamContext<DefaultState, Context>>;
@@ -28,7 +28,7 @@ guildsRouter.get('/:id/channels', async (ctx: RContext) => {
     if (channels) {
         ctx.ok(channels);
     } else {
-        ctx.notFound('Guild not found. The bot may have been removed from the server, or discord is having issues.');
+        ctx.notFound('Guild not found. The bot may have been removed from selected server, or discord is having issues.');
     }
 });
 export default guildsRouter.routes();

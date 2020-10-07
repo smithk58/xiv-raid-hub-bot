@@ -1,7 +1,7 @@
 import { Inject, Singleton } from 'typescript-ioc';
 
 import { RContext } from '../routes/guilds-router';
-import { EnvService } from '../services/env-service';
+import { EnvService } from './env-service';
 
 @Singleton
 export class APIKeyService {
@@ -13,7 +13,7 @@ export class APIKeyService {
     public errorIfNotValidAPIKey(ctx: RContext) {
         const apiKey = ctx.query.api_key;
         if (apiKey !== this.envService.apiKey) {
-            ctx.send(401);
+            ctx.unauthorized();
             ctx.res.end();
         }
     }
