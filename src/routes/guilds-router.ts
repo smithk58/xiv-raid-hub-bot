@@ -1,7 +1,7 @@
 import { Context, DefaultState, ParameterizedContext } from 'koa';
 import * as Router from '@koa/router';
-import { RaidHubService } from '../services/raid-hub-service';
 import { Container } from 'typescript-ioc';
+
 import { APIKeyService } from '../services/APIKeyService';
 import { DiscordClientApiService } from '../services/discord-client-api';
 

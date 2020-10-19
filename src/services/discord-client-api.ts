@@ -10,7 +10,6 @@ export class DiscordClientApiService {
     private guildMap: Record<string, {id: string, name: string}> = {};
     async init(client: Client) {
         this.client = client;
-        // TODO Not always hit in startup, maybe timing issue?
         // Populate guilds array with initial guilds the bot is in
         this.client.guilds.cache.forEach((guild: Guild) => {
             this.addGuild(guild);

@@ -16,7 +16,8 @@ if (process.env.NODE_ENV === 'development') {
     app.use(Logger());
     app.use(Cors({credentials: true}));
 } else {
-    app.use(Cors({origin: process.env.ALLOWED_ORIGIN, credentials: true}));
+    const origin = process.env.ALLOWED_ORIGIN || 'https://api.xivraidhub.com';
+    app.use(Cors({origin, credentials: true}));
 }
 
 // Easier responses https://www.npmjs.com/package/koa-respond
