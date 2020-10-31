@@ -6,6 +6,7 @@ import { LoggerService } from './services/logger';
 import { CommandParser } from './services/command-parser';
 import { EnvService } from './services/env-service';
 import { DiscordClientApiService } from './services/discord-client-api';
+import { AlarmScheduler } from './services/alarm-scheduler';
 
 
 export class Bot {
@@ -13,6 +14,7 @@ export class Bot {
   @Inject private commandParser: CommandParser;
   @Inject private envService: EnvService;
   @Inject private discordClientAPIService: DiscordClientApiService
+  @Inject private alarmScheduler: AlarmScheduler
   public async init() {
     const DISCORD_TOKEN = this.envService.discordToken;
     const COMMAND_PREFIX = this.envService.commandPrefix;
@@ -26,6 +28,9 @@ export class Bot {
       client.user.setActivity('!help', { type: 'LISTENING' });
       // Init services that need access to client
       this.discordClientAPIService.init(client);
+      this.alarmScheduler.init(client);
+      // Start alarm scheduler
+      this.alarmScheduler.startScheduling();
     });
 
     client.on('message', async (msg) => {

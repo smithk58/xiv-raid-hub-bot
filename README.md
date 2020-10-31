@@ -2,8 +2,7 @@
 # XIV Raidhub Bot
 ## Developing
 
-* `npm run start-dev` to run in dev mode
-* `npm run start` to run in prod mode
+Run `npm run start-dev` to start the dev server.
 
 ## Lint
 
