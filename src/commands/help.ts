@@ -19,14 +19,17 @@ export class HelpCommand implements ICommand {
     buildHelpMessage(): string{
         // TODO display is DM only
         const prefix = this.envService.commandPrefix;
-        let msg = 'This bot is for interacting with https://www.xivraidhub.com\n'
-        + '**__All Commands__**\n';
-        // Print the alias's and help text for each command
-        this.helpService.allHelp.map(({ aliases, help }) => {
-            msg += '\t' + aliases.map((alias) => '__' + prefix + alias + '__').join(', ')+ '\n';
-            msg += '\t\t' + help;
-            msg += '\n'
-        });
+        const listOfCommands = this.helpService.allHelp;
+        let msg = 'This bot is for interacting with https://www.xivraidhub.com\n';
+        if (listOfCommands.length > 0) {
+            msg += '**__All Commands__**\n';
+            // Print the alias's and help text for each command
+            listOfCommands.map(({ aliases, help }) => {
+                msg += '\t' + aliases.map((alias) => '__' + prefix + alias + '__').join(', ')+ '\n';
+                msg += '\t\t' + help;
+                msg += '\n'
+            });
+        }
         return msg;
     }
 }
