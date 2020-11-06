@@ -110,7 +110,8 @@ export class AlarmScheduler {
     }
     private buildMessageContent(alarm: Alarm) {
         const purpose = alarm.raidGroup.purpose || 'raid';
-        const timeLeft = alarm.offsetHour === 0 ? 'now' : `in ${alarm.offsetHour} hour(s)`;
+        const pluralStr = alarm.offsetHour > 1 ? 's' : '';
+        const timeLeft = alarm.offsetHour === 0 ? 'now' : `in ${alarm.offsetHour} hour${pluralStr}`;
         return `${alarm.raidGroup.name} is scheduled to do ${purpose} ${timeLeft}!`;
     }
 }
