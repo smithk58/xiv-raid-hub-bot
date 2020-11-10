@@ -7,4 +7,5 @@ export interface Alarm {
     targetId: string;
     offsetHour: number;
     raidGroup: RaidGroup;
+    targetRoleId?: string;
 }

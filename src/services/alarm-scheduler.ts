@@ -109,9 +109,10 @@ export class AlarmScheduler {
         }
     }
     private buildMessageContent(alarm: Alarm) {
+        const role = alarm.targetRoleId ? '<@&' + alarm.targetRoleId + '> ' : '';
         const purpose = alarm.raidGroup.purpose || 'raid';
-        const pluralStr = alarm.offsetHour > 1 ? 's' : '';
-        const timeLeft = alarm.offsetHour === 0 ? 'now' : `in ${alarm.offsetHour} hour${pluralStr}`;
-        return `${alarm.raidGroup.name} is scheduled to do ${purpose} ${timeLeft}!`;
+        const pluralHour = alarm.offsetHour > 1 ? 's' : '';
+        const timeLeft = alarm.offsetHour === 0 ? 'now' : `in ${alarm.offsetHour} hour${pluralHour}`;
+        return `${role}${alarm.raidGroup.name} is scheduled to do ${purpose} ${timeLeft}!`;
     }
 }
