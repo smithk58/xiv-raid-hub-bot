@@ -2,7 +2,7 @@
 import { Inject, Singleton } from 'typescript-ioc';
 import { Message } from 'discord.js';
 
-import { ICommandResult, ICommand } from '../interfaces';
+import { ICommandResult, ICommand } from '../models';
 import * as Commands from '../commands';
 import { HelpService } from './help';
 

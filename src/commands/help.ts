@@ -1,6 +1,6 @@
 import { Inject } from 'typescript-ioc';
 
-import { ICommand, ICommandArgs, ICommandResult } from '../interfaces';
+import { ICommand, ICommandArgs, ICommandResult } from '../models';
 import { HelpService } from '../services/help';
 import { EnvService } from '../services/env-service';
 

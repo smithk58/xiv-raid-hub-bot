@@ -1,6 +1,6 @@
 import { Singleton } from 'typescript-ioc';
 
-import { ICommandResult } from '../interfaces';
+import { ICommandResult } from '../models';
 
 @Singleton
 export class LoggerService {

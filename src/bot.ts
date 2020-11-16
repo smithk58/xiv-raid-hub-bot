@@ -1,7 +1,7 @@
 import { Client } from 'discord.js';
 import { Inject } from 'typescript-ioc';
 
-import { ICommandResult } from './interfaces';
+import { ICommandResult } from './models';
 import { LoggerService } from './services/logger';
 import { CommandParser } from './services/command-parser';
 import { EnvService } from './services/env-service';

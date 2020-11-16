@@ -3,7 +3,7 @@ import { Client, TextChannel } from 'discord.js';
 import Timeout = NodeJS.Timeout;
 
 import { RaidHubService } from './raid-hub-service';
-import { Alarm } from '../interfaces/Alarm';
+import { Alarm } from '../models/Alarm';
 
 @Singleton
 export class AlarmScheduler {

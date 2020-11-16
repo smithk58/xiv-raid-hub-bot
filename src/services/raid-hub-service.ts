@@ -3,7 +3,7 @@ import fetch, { Response } from 'node-fetch';
 import { URL } from 'url';
 
 import { EnvService } from './env-service';
-import { Alarm } from '../interfaces/Alarm';
+import { Alarm } from '../models/Alarm';
 
 @Singleton
 export class RaidHubService {

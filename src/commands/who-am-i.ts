@@ -1,6 +1,6 @@
 import { Inject } from 'typescript-ioc';
 
-import { ICommand, ICommandArgs, ICommandResult } from '../interfaces';
+import { ICommand, ICommandArgs, ICommandResult } from '../models';
 import { RaidHubService } from '../services/raid-hub-service';
 
 /*export class WhoAmI implements ICommand {

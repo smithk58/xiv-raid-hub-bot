@@ -22,9 +22,27 @@ guildsRouter.get('/', async (ctx: RContext) => {
     const guilds = discordClientAPIService.getGuilds();
     ctx.ok(guilds);
 });
+guildsRouter.get('/:id', async (ctx: RContext) => {
+    const guildId = ctx.params.id;
+    const guild = discordClientAPIService.getGuild(guildId);
+    if (guild) {
+        ctx.ok(guild);
+    } else {
+        ctx.notFound('Guild not found. The bot may have been removed from selected server, or discord is having issues.');
+    }
+});
 guildsRouter.get('/:id/channels', async (ctx: RContext) => {
     const guildId = ctx.params.id;
     const channels = discordClientAPIService.getGuildTextChannels(guildId);
+    if (channels) {
+        ctx.ok(channels);
+    } else {
+        ctx.notFound('Guild not found. The bot may have been removed from selected server, or discord is having issues.');
+    }
+});
+guildsRouter.get('/:id/roles', async (ctx: RContext) => {
+    const guildId = ctx.params.id;
+    const channels = discordClientAPIService.getGuildRoles(guildId);
     if (channels) {
         ctx.ok(channels);
     } else {
