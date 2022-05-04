@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as Koa from 'koa';
 import * as Helmet from 'koa-helmet';
 import * as Logger from 'koa-logger';

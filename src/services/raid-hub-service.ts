@@ -14,18 +14,18 @@ export class RaidHubService {
             utcMinute: utcMinute.toString()
         });
         const response = await fetch(url);
-        return this.handleResponse(response);
+        return this.handleResponse<Alarm[]>(response);
     }
     async getSchedule(discordUserId: string): Promise<any> {
         const url = this.createUrl(`/discord-user/${discordUserId}/schedule`);
         const response = await fetch(url);
         return this.handleResponse(response);
     }
-    private async handleResponse(response: Response) {
+    private handleResponse<T>(response: Response): Promise<T> {
         if (response.status !== 200) {
             return Promise.reject(response);
         }
-        return response.json();
+        return response.json() as Promise<T>;
     }
     /**
      * Creates a URL using the provided relative path with the xiv-apis base URL and API key taken care of.

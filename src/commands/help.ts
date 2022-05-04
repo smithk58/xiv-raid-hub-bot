@@ -5,15 +5,16 @@ import { HelpService } from '../services/help';
 import { EnvService } from '../services/env-service';
 
 export class HelpCommand implements ICommand {
-    aliases = ['help'];
-    helpMessage: string;
     @Inject private envService: EnvService;
     @Inject private helpService: HelpService;
+    name: 'Help';
+    aliases = ['help'];
+    helpMessage: string;
 
     async execute(cmdArgs: ICommandArgs): Promise<ICommandResult> {
         const { message, user } = cmdArgs
         this.helpMessage = this.helpMessage ? this.helpMessage : this.buildHelpMessage();
-        message.reply(this.helpMessage);
+        await message.reply(this.helpMessage);
         return { resultString: 'helped ' + user.username + user.discriminator };
     }
     buildHelpMessage(): string{

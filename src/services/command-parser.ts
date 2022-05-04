@@ -39,8 +39,10 @@ export class CommandParser {
    */
   private loadCommands(commands: typeof Commands) {
     Object.keys(commands).forEach((cmdName) => {
-      // @ts-ignore
-      const cmdInst = new Commands[cmdName]();
+      /* eslint-disable */
+      // @ts-ignore but can't force enforce constructor w/ interface
+      const cmdInst = new Commands[cmdName]() as ICommand;
+      /* eslint-enable */
       this.registerCommand(cmdInst);
     });
   }
@@ -56,8 +58,10 @@ export class CommandParser {
     if (cmdInst.aliases) {
       cmdInst.aliases.forEach((alias) => {
         if (this.executableCommands[alias]) {
+          const curCmd = cmdInst.name;
+          const existingCmd = this.executableCommands[alias].name;
           throw new Error(
-            `Cannot re-register alias "${alias}". Trying to register ${cmdInst} but already registered ${this.executableCommands[alias]}.`
+            `Cannot re-register alias "${alias}". Trying to register ${curCmd} but already registered ${existingCmd}.`
           );
         }
 

@@ -13,6 +13,7 @@ export class APIKeyService {
     public errorIfNotValidAPIKey(ctx: RContext) {
         const apiKey = ctx.query.api_key;
         if (apiKey !== this.envService.apiKey) {
+            // eslint-disable-next-line
             ctx.unauthorized();
             ctx.res.end();
         }

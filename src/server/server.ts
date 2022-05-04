@@ -6,13 +6,10 @@ dotenv.config();
 const PORT = Number(process.env.PORT) || 3001;
 app.listen(PORT);
 // Init the discord bot
-const initBot = async () => {
-    const bot = new Bot();
-    try {
-        await bot.init();
-    } catch (e) {
-        console.error(e);
-        process.exit(0);
-    }
-};
-initBot()
+const bot = new Bot();
+try {
+    void bot.init();
+} catch (e) {
+    console.error(e);
+    process.exit(0);
+}

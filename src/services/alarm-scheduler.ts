@@ -11,7 +11,7 @@ export class AlarmScheduler {
     private client: Client;
     private intervalInMinutes = 15;
     private currentTimer: Timeout;
-    async init(client: Client) {
+    init(client: Client) {
         this.client = client;
     }
     /**
@@ -22,15 +22,16 @@ export class AlarmScheduler {
         clearTimeout(this.currentTimer);
         this.startTimer();
     }
-    private startTimer() {
-        // Set timeout with our calculation should avoid the time drifting when using setInterval
-        this.currentTimer = setTimeout(this.processAlarms.bind(this), this.getMillisUntilNextExecution());
-    }
     /**
      * Stops checking for and sending alarms.
      */
     cancelScheduling() {
         clearTimeout(this.currentTimer);
+    }
+    private startTimer() {
+        // Set timeout with our calculation should avoid the time drifting when using setInterval
+        // eslint-disable-next-line
+        this.currentTimer = setTimeout(this.processAlarms.bind(this), this.getMillisUntilNextExecution());
     }
     /**
      * Begins processing the alarms that match the servers current UTC hour/minute.
@@ -40,11 +41,11 @@ export class AlarmScheduler {
         // Get the alarms for the current hour/minute
         const targetDate = this.getTargetAlarmDate();
         const alarms = await this.raidHubService.getAlarms(targetDate.getUTCHours(), targetDate.getUTCMinutes()).catch(
-            (error) => console.error('alarm error', error?.statusText)
+            (error: {statusText?: string}) => console.error('alarm error', error?.statusText)
         );
         if (alarms) {
             alarms.forEach((alarm) => {
-                this.sendMessage(alarm, targetDate);
+                void this.sendMessage(alarm, targetDate);
             })
         }
         // Start the next timer
@@ -87,7 +88,7 @@ export class AlarmScheduler {
             const guild = this.client.guilds.cache.get(alarm.targetGuildId);
             const user = guild ? await guild.members.fetch({user: alarm.targetId}) : undefined;
             if (user) {
-                user.send(this.buildMessageContent(alarm, alarmDate)).catch((error) => {
+                user.send(this.buildMessageContent(alarm, alarmDate)).catch((error: string) => {
                     // TODO Disable alarm if fails
                     console.error('send DM failed ' + error);
                 });
@@ -99,7 +100,7 @@ export class AlarmScheduler {
             const guild = this.client.guilds.cache.get(alarm.targetGuildId);
             const channel = guild ? guild.channels.cache.get(alarm.targetId): undefined;
             if (channel && channel.type === 'text') {
-                (channel as TextChannel).send(this.buildMessageContent(alarm, alarmDate)).catch((error) => {
+                (channel as TextChannel).send(this.buildMessageContent(alarm, alarmDate)).catch((error: string) => {
                     // TODO Disable alarm if fails
                     console.error('send to channel failed ' + error);
                 })
@@ -118,7 +119,7 @@ export class AlarmScheduler {
         const role = alarm.targetRoleId ? '<@&' + alarm.targetRoleId + '> ' : '';
         const purpose = alarm.raidGroup.purpose || 'raid';
         const pluralHour = alarm.offsetHour > 1 ? 's' : '';
-        const discordTimestamp = '<t:' + this.getUnixTimestamp(alarmDate, alarm.offsetHour) + ':t>';
+        const discordTimestamp = `<t:${this.getUnixTimestamp(alarmDate, alarm.offsetHour)}:t>`;
         const timeLeft = alarm.offsetHour === 0 ? 'now' : `in ${alarm.offsetHour} hour${pluralHour}`;
         return `${role}${alarm.raidGroup.name} is scheduled to do ${purpose} at ${discordTimestamp}, which is ${timeLeft}!`;
     }
@@ -128,7 +129,7 @@ export class AlarmScheduler {
      * @param alarmDate - The date/time the alarm should go off.
      * @param offsetInHours - How many hours before the target date/time the alarm is warning about.
      */
-    private getUnixTimestamp(alarmDate: Date, offsetInHours: number) {
+    private getUnixTimestamp(alarmDate: Date, offsetInHours: number): number {
         const date = new Date(alarmDate.getTime()); // clone date since setHours modifies original
         // Adding the offset to the time the alarm goes off should result in the actual time the alarm is warning about
         // JS Date should automatically handle hours wrapping across days

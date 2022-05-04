@@ -8,7 +8,6 @@ import { EnvService } from './services/env-service';
 import { DiscordClientApiService } from './services/discord-client-api';
 import { AlarmScheduler } from './services/alarm-scheduler';
 
-
 export class Bot {
   @Inject private logger: LoggerService;
   @Inject private commandParser: CommandParser;
@@ -21,11 +20,11 @@ export class Bot {
     if (!DISCORD_TOKEN) { throw new Error('No Discord token specified!'); }
 
     const client = new Client();
-    client.login(DISCORD_TOKEN);
+    await client.login(DISCORD_TOKEN);
     client.on('ready', () => {
       this.logger.log('Initialized bot!');
       // Set bots status to a note about !help command
-      client.user.setActivity('!help', { type: 'LISTENING' });
+      void client.user.setActivity('!help', { type: 'LISTENING' });
       // Init services that need access to client
       this.discordClientAPIService.init(client);
       this.alarmScheduler.init(client);

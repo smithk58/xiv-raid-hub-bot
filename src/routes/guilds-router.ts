@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Context, DefaultState, ParameterizedContext } from 'koa';
 import * as Router from '@koa/router';
 import { Container } from 'typescript-ioc';
@@ -18,11 +19,11 @@ guildsRouter.use(async (ctx: RContext, next) => {
     apiKeyService.errorIfNotValidAPIKey(ctx);
     return next();
 });
-guildsRouter.get('/', async (ctx: RContext) => {
+guildsRouter.get('/', (ctx: RContext) => {
     const guilds = discordClientAPIService.getGuilds();
     ctx.ok(guilds);
 });
-guildsRouter.get('/:id', async (ctx: RContext) => {
+guildsRouter.get('/:id', (ctx: RContext) => {
     const guildId = ctx.params.id;
     const guild = discordClientAPIService.getGuild(guildId);
     if (guild) {
@@ -31,7 +32,7 @@ guildsRouter.get('/:id', async (ctx: RContext) => {
         ctx.notFound('Guild not found. The bot may have been removed from selected server, or discord is having issues.');
     }
 });
-guildsRouter.get('/:id/channels', async (ctx: RContext) => {
+guildsRouter.get('/:id/channels', (ctx: RContext) => {
     const guildId = ctx.params.id;
     const channels = discordClientAPIService.getGuildTextChannels(guildId);
     if (channels) {
@@ -40,7 +41,7 @@ guildsRouter.get('/:id/channels', async (ctx: RContext) => {
         ctx.notFound('Guild not found. The bot may have been removed from selected server, or discord is having issues.');
     }
 });
-guildsRouter.get('/:id/roles', async (ctx: RContext) => {
+guildsRouter.get('/:id/roles', (ctx: RContext) => {
     const guildId = ctx.params.id;
     const channels = discordClientAPIService.getGuildRoles(guildId);
     if (channels) {

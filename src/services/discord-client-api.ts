@@ -7,10 +7,10 @@ import { SimpleGuild } from '../models/SimpleGuild';
 
 @Singleton
 export class DiscordClientApiService {
-    private client: Client;
     @Inject private envService: EnvService;
+    private client: Client;
     private guildMap: Record<string, SimpleGuild> = {};
-    async init(client: Client) {
+    init(client: Client) {
         this.client = client;
         // Populate guilds array with initial guilds the bot is in
         this.client.guilds.cache.forEach((guild: Guild) => {
