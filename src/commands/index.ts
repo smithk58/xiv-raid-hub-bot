@@ -1,2 +1,7 @@
-export * from './help';
-export * from './who-am-i'
+import { HelpCommand } from './help';
+import { WhoAmI } from './who-am-i';
+
+export default [
+    HelpCommand,
+    WhoAmI
+];
