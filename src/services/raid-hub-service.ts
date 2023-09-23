@@ -21,6 +21,11 @@ export class RaidHubService {
         const response = await fetch(url);
         return this.handleResponse(response);
     }
+    async getCharacters(discordUserId: string): Promise<RaidHubCharacter[]> {
+        const url = this.createUrl(`/discord-user/${discordUserId}/characters`);
+        const response = await fetch(url);
+        return this.handleResponse(response);
+    }
     private handleResponse<T>(response: Response): Promise<T> {
         if (response.status !== 200) {
             return Promise.reject(response);
@@ -41,4 +46,10 @@ export class RaidHubService {
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
         return url;
     }
+}
+
+export interface RaidHubCharacter {
+    defaultClass: string;
+    isOwner: boolean;
+    character: {id: number, name: string, server: string};
 }
