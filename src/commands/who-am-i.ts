@@ -2,6 +2,7 @@ import { Inject } from 'typescript-ioc';
 
 import { ICommand, ICommandArgs, ICommandResult } from '../models';
 import { RaidHubService } from '../services/raid-hub-service';
+import { Response } from 'node-fetch';
 
 export class WhoAmI implements ICommand {
     @Inject private raidHubService: RaidHubService;
@@ -11,7 +12,7 @@ export class WhoAmI implements ICommand {
     async execute(cmdArgs: ICommandArgs): Promise<ICommandResult> {
         const { message, user } = cmdArgs;
         let notFound = false;
-        const characters = await this.raidHubService.getCharacters(user.id).catch((error) => {
+        const characters = await this.raidHubService.getCharacters(user.id).catch((error: Response) => {
             notFound = error.status === 404;
             if (!notFound) { // only log an unexpected error
                 console.error('whoAmI-getCharacters error', error?.statusText)
@@ -20,12 +21,12 @@ export class WhoAmI implements ICommand {
         let reply: string;
         if (characters) {
             reply = `Hello ${user.username}, `;
-            let ownedCharacters = characters.filter((chr) => chr.isOwner);
+            const ownedCharacters = characters.filter((chr) => chr.isOwner);
             if (ownedCharacters.length > 0) {
-                reply += `I recognize you as the owner of: `
+                reply += 'I recognize you as the owner of: ';
                 ownedCharacters.forEach((chr, index) => {
                     if (index === ownedCharacters.length - 1 && ownedCharacters.length > 1) {
-                        reply += 'and '
+                        reply += 'and ';
                     }
                     reply += `${chr.character.name} (${chr.character.server})`
                     if (index < ownedCharacters.length - 1) {
