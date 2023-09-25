@@ -1,1 +1,1 @@
-export * from './ICommand';
+export * from '../commands/ICommand';
