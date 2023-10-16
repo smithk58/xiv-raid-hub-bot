@@ -25,7 +25,7 @@ export class HelpCommand implements ICommand {
         if (listOfCommands.length > 0) {
             msg += '**__All Commands__**\n';
             // Print the alias's and help text for each command
-            listOfCommands.map(({ aliases, help }) => {
+            listOfCommands.forEach(({ aliases, help }) => {
                 msg += '\t' + aliases.map((alias) => '__' + prefix + alias + '__').join(', ')+ '\n';
                 msg += '\t\t' + help;
                 msg += '\n'

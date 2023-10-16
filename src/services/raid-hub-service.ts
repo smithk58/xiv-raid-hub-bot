@@ -4,6 +4,8 @@ import { URL } from 'url';
 
 import { EnvService } from './env-service';
 import { Alarm } from '../models/Alarm';
+import { RaidHubCharacter } from '../models/RaidHubCharacter';
+import { WeeklyRaidTime } from '../models/WeeklyRaidTime';
 
 @Singleton
 export class RaidHubService {
@@ -14,23 +16,26 @@ export class RaidHubService {
             utcMinute: utcMinute.toString()
         });
         const response = await fetch(url);
-        return this.handleResponse<Alarm[]>(response);
+        return this.handleResponse<Alarm[]>(response, url);
     }
-    async getSchedule(discordUserId: string): Promise<any> {
-        const url = this.createUrl(`/discord-user/${discordUserId}/schedule`);
+    async getRaidTimes(discordUserId: string): Promise<WeeklyRaidTime[]> {
+        const url = this.createUrl(`/discord-user/${discordUserId}/raid-times`);
         const response = await fetch(url);
-        return this.handleResponse(response);
+        return this.handleResponse(response, url);
     }
     async getCharacters(discordUserId: string): Promise<RaidHubCharacter[]> {
         const url = this.createUrl(`/discord-user/${discordUserId}/characters`);
         const response = await fetch(url);
-        return this.handleResponse(response);
+        return this.handleResponse(response, url);
     }
-    private handleResponse<T>(response: Response): Promise<T> {
+    private async handleResponse<T>(response: Response, url: URL): Promise<T> {
+        const result = await response.json();
         if (response.status !== 200) {
-            return Promise.reject(response);
+            const error = result.message ? result.message : response.statusText;
+            console.error('response error', url.pathname, error);
+            return Promise.reject(null);
         }
-        return response.json() as Promise<T>;
+        return result as Promise<T>;
     }
     /**
      * Creates a URL using the provided relative path with the xiv-apis base URL and API key taken care of.
@@ -46,10 +51,4 @@ export class RaidHubService {
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
         return url;
     }
-}
-
-export interface RaidHubCharacter {
-    defaultClass: string;
-    isOwner: boolean;
-    character: {id: number, name: string, server: string};
 }
