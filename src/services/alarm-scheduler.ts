@@ -40,7 +40,7 @@ export class AlarmScheduler {
         // TODO get alarms, send message per alarm, catch errors, send batch of errors back to API
         // Get the alarms for the current hour/minute
         const targetDate = this.getTargetAlarmDate();
-        const alarms = await this.raidHubService.getAlarms(targetDate.getUTCHours(), targetDate.getUTCMinutes()).catch(() => null);
+        const alarms = await this.raidHubService.getAlarms(targetDate.getUTCHours(), targetDate.getUTCMinutes()).catch<null>(() => null);
         if (alarms) {
             alarms.forEach((alarm: Alarm) => {
                 void this.sendMessage(alarm, targetDate);

@@ -29,13 +29,14 @@ export class RaidHubService {
         return this.handleResponse(response, url);
     }
     private async handleResponse<T>(response: Response, url: URL): Promise<T> {
-        const result = await response.json();
+        let result = await response.json() as T | Error;
         if (response.status !== 200) {
+            result = result as Error;
             const error = result.message ? result.message : response.statusText;
             console.error('response error', url.pathname, error);
-            return Promise.reject(null);
+            return Promise.reject(null as T);
         }
-        return result as Promise<T>;
+        return result as T;
     }
     /**
      * Creates a URL using the provided relative path with the xiv-apis base URL and API key taken care of.

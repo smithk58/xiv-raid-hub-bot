@@ -11,7 +11,7 @@ export class MyScheduleCommand implements ICommand {
 
     async execute(cmdArgs: ICommandArgs): Promise<ICommandResult> {
         const { message, user } = cmdArgs;
-        const raidTimes = await this.raidHubService.getRaidTimes(user.id).catch(() => null);
+        const raidTimes = await this.raidHubService.getRaidTimes(user.id).catch<null>(() => null);
         let reply: string;
         if (!raidTimes) {
             reply = 'I don\'t recognize you. It seems like you haven\'t logged into the website before.';

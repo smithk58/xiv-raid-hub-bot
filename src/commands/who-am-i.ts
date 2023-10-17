@@ -11,7 +11,7 @@ export class WhoAmI implements ICommand {
     aliases = ['whoami', 'whoAmI']
     async execute(cmdArgs: ICommandArgs): Promise<ICommandResult> {
         const { message, user } = cmdArgs;
-        const characters = await this.raidHubService.getCharacters(user.id).catch(() => null);
+        const characters = await this.raidHubService.getCharacters(user.id).catch<null>(() => null);
         let reply: string;
         if (characters) {
             reply = `Hello ${user.username}, `;
