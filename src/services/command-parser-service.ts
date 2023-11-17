@@ -4,10 +4,10 @@ import { Message } from 'discord.js';
 
 import { ICommandResult, ICommand } from '../models';
 import * as Commands from '../commands';
-import { HelpService } from './help';
+import { HelpService } from './help-service';
 
 @Singleton
-export class CommandParser {
+export class CommandParserService {
   @Inject private helpService: HelpService;
   private executableCommands: Record<string, ICommand> = {};
   constructor() {
@@ -50,7 +50,7 @@ export class CommandParser {
    */
   private registerCommand(cmdInst: ICommand) {
     if (cmdInst.help && cmdInst.aliases) {
-      this.helpService.addHelp({ command: cmdInst.constructor.name, aliases: cmdInst.aliases, help: cmdInst.help });
+      this.helpService.addHelp({ command: cmdInst.constructor.name, aliases: cmdInst.aliases, help: cmdInst.help, examples: cmdInst.examples  });
     }
     cmdInst.aliases.forEach((alias) => {
       if (this.executableCommands[alias]) {

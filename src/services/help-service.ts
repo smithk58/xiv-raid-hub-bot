@@ -1,13 +1,13 @@
 import { Singleton } from 'typescript-ioc';
+import { CommandHelp } from '../models/CommandHelp';
 
 @Singleton
 export class HelpService {
-    private helpTexts: Array<{ command: string, aliases: string[], help: string }> = [];
+    private helpTexts: Array<CommandHelp> = [];
     public get allHelp() {
         return this.helpTexts;
     }
-
-    public addHelp(help: { command: string, aliases: string[], help: string }) {
+    public addHelp(help: CommandHelp) {
         this.helpTexts.push(help);
     }
 }

@@ -28,6 +28,11 @@ export class RaidHubService {
         const response = await fetch(url);
         return this.handleResponse(response, url);
     }
+    async toggleAlarmStatus(isEnabled: boolean, discordUserId: string, channelId?: string): Promise<number> {
+        const url = this.createUrl(`/discord-user/${discordUserId}/characters`);
+        const response = await fetch(url);
+        return this.handleResponse(response, url);
+    }
     private async handleResponse<T>(response: Response, url: URL): Promise<T> {
         let result = await response.json() as T | Error;
         if (response.status !== 200) {

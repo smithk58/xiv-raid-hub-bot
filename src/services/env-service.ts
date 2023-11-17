@@ -2,7 +2,6 @@ import { Singleton } from 'typescript-ioc';
 
 @Singleton
 export class EnvService {
-
     public get discordToken(): string {
         return process.env.DISCORD_BOT_TOKEN;
     }

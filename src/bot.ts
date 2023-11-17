@@ -2,18 +2,18 @@ import { Client } from 'discord.js';
 import { Inject } from 'typescript-ioc';
 
 import { ICommandResult } from './models';
-import { LoggerService } from './services/logger';
-import { CommandParser } from './services/command-parser';
+import { LoggerService } from './services/logger-service';
+import { CommandParserService } from './services/command-parser-service';
 import { EnvService } from './services/env-service';
-import { DiscordClientApiService } from './services/discord-client-api';
-import { AlarmScheduler } from './services/alarm-scheduler';
+import { DiscordClientApiService } from './services/discord-client-api-service';
+import { AlarmSchedulerService } from './services/alarm-scheduler-service';
 
 export class Bot {
   @Inject private logger: LoggerService;
-  @Inject private commandParser: CommandParser;
+  @Inject private commandParser: CommandParserService;
   @Inject private envService: EnvService;
   @Inject private discordClientAPIService: DiscordClientApiService
-  @Inject private alarmScheduler: AlarmScheduler
+  @Inject private alarmScheduler: AlarmSchedulerService
   public async init() {
     const DISCORD_TOKEN = this.envService.discordToken;
     const COMMAND_PREFIX = this.envService.commandPrefix;

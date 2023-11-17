@@ -4,7 +4,7 @@ import { ICommand, ICommandArgs, ICommandResult } from '../models';
 import { RaidHubService } from '../services/raid-hub-service';
 import { RaidHubCharacter } from '../models/RaidHubCharacter';
 
-export class WhoAmI implements ICommand {
+export class WhoAmICommand implements ICommand {
     @Inject private raidHubService: RaidHubService;
     name: 'WhoAmI';
     help = 'Tells you what the XIV Raid Hub service knows about you.';

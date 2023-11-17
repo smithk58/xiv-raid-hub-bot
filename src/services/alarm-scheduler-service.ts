@@ -6,7 +6,7 @@ import { RaidHubService } from './raid-hub-service';
 import { Alarm } from '../models/Alarm';
 
 @Singleton
-export class AlarmScheduler {
+export class AlarmSchedulerService {
     @Inject private raidHubService: RaidHubService;
     private client: Client;
     private intervalInMinutes = 15;

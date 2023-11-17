@@ -4,7 +4,7 @@ import { RContext } from '../routes/guilds-router';
 import { EnvService } from './env-service';
 
 @Singleton
-export class APIKeyService {
+export class ApiKeyService {
     @Inject private envService: EnvService;
     /**
      * Errors if the context doesn't have a valid API key.

@@ -1,7 +1,7 @@
 import { Inject } from 'typescript-ioc';
 
 import { ICommand, ICommandArgs, ICommandResult } from '../models';
-import { HelpService } from '../services/help';
+import { HelpService } from '../services/help-service';
 import { EnvService } from '../services/env-service';
 
 export class HelpCommand implements ICommand {

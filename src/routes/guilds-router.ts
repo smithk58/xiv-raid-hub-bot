@@ -3,13 +3,13 @@ import { Context, DefaultState, ParameterizedContext } from 'koa';
 import * as Router from '@koa/router';
 import { Container } from 'typescript-ioc';
 
-import { APIKeyService } from '../services/APIKeyService';
-import { DiscordClientApiService } from '../services/discord-client-api';
+import { ApiKeyService } from '../services/api-key-service';
+import { DiscordClientApiService } from '../services/discord-client-api-service';
 
 export type RContext = ParameterizedContext<DefaultState, Context & Router.RouterParamContext<DefaultState, Context>>;
 
 const discordClientAPIService: DiscordClientApiService = Container.get(DiscordClientApiService);
-const apiKeyService: APIKeyService = Container.get(APIKeyService);
+const apiKeyService: ApiKeyService = Container.get(ApiKeyService);
 
 const routerOpts: Router.RouterOptions = {prefix: '/guilds'};
 const guildsRouter: Router = new Router<DefaultState, Context>(routerOpts);

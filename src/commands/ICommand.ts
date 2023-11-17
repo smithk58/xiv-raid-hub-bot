@@ -17,7 +17,8 @@ export interface ICommand {
   name: string;
   aliases: string[];
   help?: string;
-  dmOnly?: boolean;
+  dmOnly?: boolean; // default is false
+  examples?: Record<string, string>;
   // run when the aliases are matched, and if the function is added to the command
   execute?(args: ICommandArgs): Promise<ICommandResult>;
 }
