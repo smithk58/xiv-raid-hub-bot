@@ -15,8 +15,8 @@ export class DisableAlarmsCommand implements ICommand {
         let reply: string;
         if (!result) {
             reply = 'I don\'t recognize you. It seems like you haven\'t logged into the website before.';
-        } else if (result > 0) {
-            reply = result + ' alarms were disabled.';
+        } else if (result.amountUpdated > 0) {
+            reply = result.amountUpdated + ' alarms were disabled.';
         } else {
             reply = 'You don\'t have any alarms to disable.';
         }
