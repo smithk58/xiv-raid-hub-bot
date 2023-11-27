@@ -6,10 +6,12 @@ import { EnvService } from './env-service';
 import { Alarm } from '../models/Alarm';
 import { RaidHubCharacter } from '../models/RaidHubCharacter';
 import { WeeklyRaidTime } from '../models/WeeklyRaidTime';
+import { LoggerService } from './logger-service';
 
 @Singleton
 export class RaidHubService {
     @Inject private envService: EnvService;
+    @Inject private logger: LoggerService;
     async getAlarms(utcHour: number, utcMinute: number): Promise<Alarm[]> {
         const url = this.createUrl('/bot/scheduled-alarms', {
             utcHour: utcHour.toString(),
@@ -41,14 +43,13 @@ export class RaidHubService {
         return this.handleResponse(response, url);
     }
     private async handleResponse<T>(response: Response, url: URL): Promise<T> {
-        let result = await response.json() as T | Error;
-        if (response.status !== 200) {
-            result = result as Error;
-            const error = result.message ? result.message : response.statusText;
-            console.error('response error', url.pathname, error);
-            return Promise.reject(null as T);
+        if (response.ok) {
+            return await response.json() as T;
+        } else {
+            const error = await response.text();
+            this.logger.log.error({url: url.pathname, error});
+           return Promise.reject(error);
         }
-        return result as T;
     }
     /**
      * Creates a URL using the provided relative path with the xiv-apis base URL and API key taken care of.

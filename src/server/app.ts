@@ -3,10 +3,14 @@ import * as Koa from 'koa';
 import * as Helmet from 'koa-helmet';
 import * as Logger from 'koa-logger';
 import * as Cors from '@koa/cors';
+import { Container } from 'typescript-ioc';
 const respond = require('koa-respond');
+
 import apiRouter from '../routes';
+import { LoggerService } from '../services/logger-service';
 
 require('dotenv').config();
+const loggerService: LoggerService = Container.get(LoggerService);
 
 const app: Koa = new Koa();
 // Security
@@ -39,5 +43,9 @@ app.use(apiRouter.routes());
 app.use(apiRouter.allowedMethods());
 
 // Application error logging.
-app.on('error', console.error);
+app.on('error', loggerService.log.error);
+process.on('uncaughtException', (e) => {
+    loggerService.log.error(e);
+    process.exit(1);
+});
 export default app;

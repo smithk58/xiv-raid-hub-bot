@@ -18,11 +18,10 @@ export class Bot {
     const DISCORD_TOKEN = this.envService.discordToken;
     const COMMAND_PREFIX = this.envService.commandPrefix;
     if (!DISCORD_TOKEN) { throw new Error('No Discord token specified!'); }
-
     const client = new Client();
     await client.login(DISCORD_TOKEN);
     client.on('ready', () => {
-      this.logger.log('Initialized bot!');
+      this.logger.log.info('Initialized bot!');
       // Set bots status to a note about !help command
       void client.user.setActivity('!help', { type: 'LISTENING' });
       // Init services that need access to client
@@ -39,7 +38,7 @@ export class Bot {
       if (content.startsWith(COMMAND_PREFIX)) {
         const isDM = msg.channel.type === 'dm';
         const result: ICommandResult = await this.commandParser.handleCommand(msg, isDM);
-        this.logger.logCommandResult(result);
+        this.logger.log.info(result);
       }
     });
 

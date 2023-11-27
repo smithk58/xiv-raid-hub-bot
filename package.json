@@ -29,6 +29,7 @@
     "koa-logger": "^3.2.1",
     "koa-respond": "^2.1.0",
     "node-fetch": "^2.6.7",
+    "pino": "^8.16.2",
     "typescript-ioc": "^3.2.2"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import { Singleton } from 'typescript-ioc';
+import { Level } from 'pino';
 
 @Singleton
 export class EnvService {
@@ -16,5 +17,8 @@ export class EnvService {
     }
     public get apiKey(): string {
         return process.env.API_KEY;
+    }
+    public get logLevel(): Level {
+        return process.env.DEBUG_LOGGING === 'true' ? 'debug' : 'info';
     }
 }

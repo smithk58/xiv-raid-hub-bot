@@ -1,34 +1,28 @@
-import { Singleton } from 'typescript-ioc';
+import { Inject, Singleton } from 'typescript-ioc';
 
-import { ICommandResult } from '../models';
+import pino, { Level, Logger } from 'pino';
+import { EnvService } from './env-service';
 
 @Singleton
 export class LoggerService {
+  @Inject private envService: EnvService;
+  private readonly logger: Logger;
   constructor() {
-    this.watchGlobalUncaughtExceptions();
-  }
-
-  log(...args: (string | ICommandResult)[]) {
-    console.log(this.timeStamp(), ...args);
-  }
-
-  logCommandResult(result: ICommandResult) {
-    if (!result || (!result.result && !result.resultString)) { return; }
-    this.log(result);
-  }
-
-  error(...args: Error[]) {
-    console.error(this.timeStamp(), ...args);
-  }
-
-  private timeStamp() {
-    return new Date();
-  }
-
-  private watchGlobalUncaughtExceptions() {
-    process.on('uncaughtException', (e) => {
-      this.error(e);
-      process.exit(0);
+    this.logger = pino({
+      level: this.envService.logLevel,
+      timestamp: pino.stdTimeFunctions.isoTime
     });
+  }
+  get log(): Logger {
+    return this.logger
+  }
+  enableLogging() {
+    this.logger.level = this.envService.logLevel;
+  }
+  disableLogging() {
+    this.logger.level = 'silent';
+  }
+  setLoggingLevel(level: Level) {
+    this.logger.level = level;
   }
 }

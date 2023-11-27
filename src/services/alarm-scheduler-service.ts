@@ -4,13 +4,20 @@ import Timeout = NodeJS.Timeout;
 
 import { RaidHubService } from './raid-hub-service';
 import { Alarm } from '../models/Alarm';
+import { LoggerService } from './logger-service';
 
 @Singleton
 export class AlarmSchedulerService {
     @Inject private raidHubService: RaidHubService;
+    @Inject private logger: LoggerService;
     private client: Client;
     private intervalInMinutes = 15;
     private currentTimer: Timeout;
+
+    /**
+     * Initializes the alarm scheduler.
+     * @param client - A discord bot client.
+     */
     init(client: Client) {
         this.client = client;
     }
@@ -18,6 +25,7 @@ export class AlarmSchedulerService {
      * Begins periodically checking for and sending alarms.
      */
     startScheduling() {
+        this.logger.log.info('Scheduling started.');
         // Cancel any existing timer before starting a new one
         clearTimeout(this.currentTimer);
         this.startTimer();
@@ -26,6 +34,7 @@ export class AlarmSchedulerService {
      * Stops checking for and sending alarms.
      */
     cancelScheduling() {
+        this.logger.log.info('Scheduling stopped.');
         clearTimeout(this.currentTimer);
     }
     private startTimer() {
@@ -37,6 +46,7 @@ export class AlarmSchedulerService {
      * Begins processing the alarms that match the servers current UTC hour/minute.
      */
     private async processAlarms() {
+        this.logger.log.info('Processing alarms.');
         // TODO get alarms, send message per alarm, catch errors, send batch of errors back to API
         // Get the alarms for the current hour/minute
         const targetDate = this.getTargetAlarmDate();
@@ -44,7 +54,8 @@ export class AlarmSchedulerService {
         if (alarms) {
             alarms.forEach((alarm: Alarm) => {
                 void this.sendMessage(alarm, targetDate);
-            })
+            });
+            this.logger.log.info('Processed ' + alarms.length + ' alarms.');
         }
         // Start the next timer
         this.startTimer()
