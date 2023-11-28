@@ -11,7 +11,8 @@ export class DisableAlarmsCommand implements ICommand {
 
     async execute(cmdArgs: ICommandArgs): Promise<ICommandResult> {
         const { message, user } = cmdArgs;
-        const result = await this.raidHubService.toggleAlarmStatus(false, user.id, message.channel.id).catch<null>(() => null);
+        const channelId = message.channel.type !== 'dm' ? message.channel.id : undefined;
+        const result = await this.raidHubService.toggleAlarmStatus(false, user.id, channelId).catch<null>(() => null);
         let reply: string;
         if (!result) {
             reply = 'I don\'t recognize you. It seems like you haven\'t logged into the website before.';
